@@ -91,6 +91,17 @@
 
             
         });
+
+
+    $(document).ready(function() {
+    $('input').keyup(function(e) {
+        if (event.which === 13)
+        {
+          e.preventDefault(); // Prevent the form from submitting via the browser
+                showdata();
+        }
+    });
+});
 </script>
 
 
