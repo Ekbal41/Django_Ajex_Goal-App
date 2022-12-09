@@ -15,23 +15,28 @@
 
 <script type="text/javascript">
         function showdata(){
+          $(document).ready(function() {
+            
             $.ajax({ // create an AJAX call...
             type: 'get', // GET or POST
             dataType: 'json',
             url: '/get_data', // the file to call
             success: function(response) { // on success..
-                $('#showdata').html(
-                response.goals.reverse().map((item) => {
-                    return `<a onclick="delete_goal(${item.id})" class="list-group-item list-group-item-action">${item.goal}</a>`
-                    }).join('')
-                    ); // update the DIV
-                    console.log(response);
+                console.log('ok');
                 },
                 error: function(e, x, r) { // on error..
                     $('#error_div').html(e); // update the DIV
                 }
                     
+            }).then(function(response){
+              $('#showdata').html(
+                response.goals.reverse().map((item) => {
+                  console.log(item);
+                    return `<a onclick="delete_goal(${item.id})" class="list-group-item list-group-item-action">${item.goal}</a>`
+                  }).join('')
+              ); // update the DIV
             });
+          });
         }
         function delete_goal(id){
             console.log(id);
@@ -52,6 +57,12 @@
         }
 
         showdata();
+
+        $('#btn').click(function (e) {
+        e.preventDefault();
+        showdata();
+        });
+        
 
         
 
@@ -118,12 +129,12 @@
                         {% csrf_token%}
 
                       <div class="form-floating mb-3">
-                        <textarea type="text" class="form-control" name="goal" id="goal" placeholder="Your Goal"></textarea>
+                        <input type="text" class="form-control" name="goal" id="goal" placeholder="Your Goal"></input>
                        
                       </div>
       
                       <div class="d-grid gap-2">
-                        <button class="btn btn-lg btn-primary" type="submit" onclick="showdata()">Add Goal</button>
+                        <button class="btn btn-lg btn-primary" type="submit" id="btn">Add Goal</button>
                     </div>
       
                     </form>
